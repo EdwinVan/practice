@@ -20,6 +20,8 @@
 
     <properties>
         <java.version>17</java.version>
+        <java.version>17</java.version>
+        <lombok.version>1.18.32</lombok.version>  <!-- 添加版本号 -->
     </properties>
 
     <dependencies>
@@ -45,6 +47,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>  <!-- 明确版本 -->
             <optional>true</optional>
         </dependency>
 
