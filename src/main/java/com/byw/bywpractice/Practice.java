@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * 字符串内建函数
  * @author fanyujie
  * @date 2026年03月14日 14:31
  * @return
