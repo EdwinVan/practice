@@ -33,11 +33,11 @@ public class EncryptController {
 
     @PostMapping("/rsaEncrypt")
     public String rsaEncrypt(String plaintext) {
-        return SecurityUtil.rsaEncrypt(plaintext, SecurityUtil.generateRsaKeyPair()[0]);
+        return SecurityUtil.rsaEncrypt(plaintext, SecurityUtil.RSA_PUBLIC_KEY);
     }
 
     @PostMapping("/rsaDecrypt")
     public String rsaDecrypt(String ciphertext) {
-        return SecurityUtil.rsaDecrypt(ciphertext, SecurityUtil.generateRsaKeyPair()[1]);
+        return SecurityUtil.rsaDecrypt(ciphertext, SecurityUtil.RSA_PRIVATE_KEY);
     }
 }
