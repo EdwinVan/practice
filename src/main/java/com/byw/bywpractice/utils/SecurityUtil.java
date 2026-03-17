@@ -4,6 +4,7 @@ import com.byw.bywpractice.model.req.GetTokenReq;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
@@ -23,6 +24,7 @@ import java.util.Base64;
  * @author fanyujie
  * @date 2026年03月14日 15:10
  */
+@Component
 public class SecurityUtil {
 
     // ==================== 常量定义 ====================

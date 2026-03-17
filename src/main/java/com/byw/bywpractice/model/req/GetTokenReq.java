@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * 获取token请求参数
  * @author fanyujie
  * @date 2026年03月17日 9:32
  * @return
