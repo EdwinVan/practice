@@ -73,4 +73,16 @@ public class EncryptController {
     public String sm2Decrypt(@RequestBody PlaintextReq plaintextReq) {
         return SMUtil.sm2Decrypt(plaintextReq.getCiphertext(), SMUtil.SM2_PRIVATE_KEY);
     }
+
+    @Operation(summary = "DES加密")
+    @PostMapping("/desEncrypt")
+    public String desEncrypt(@RequestBody PlaintextReq plaintextReq) {
+        return SecurityUtil.desEncrypt(plaintextReq.getCiphertext());
+    }
+
+    @Operation(summary = "DES解密")
+    @PostMapping("/desDecrypt")
+    public String desDecrypt(@RequestBody PlaintextReq plaintextReq) {
+        return SecurityUtil.desDecrypt(plaintextReq.getCiphertext());
+    }
 }

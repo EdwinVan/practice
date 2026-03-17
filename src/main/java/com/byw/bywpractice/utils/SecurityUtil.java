@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -405,6 +406,67 @@ public class SecurityUtil {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+    // ==================== DES加密 ====================
+    // 密钥：#$%^^@!0（8字节）
+    private static final String DES_KEY = "#$%^^@!0";
+
+    // IV：12,34,56,78,90,AB,CD,EF（8字节十六进制）
+    private static final byte[] IV = new byte[]{
+            0x12, 0x34, 0x56, 0x78, (byte) 0x90, (byte) 0xAB, (byte) 0xCD, (byte) 0xEF
+    };
+
+    private static final String DES_ALGORITHM = "DES";
+    private static final String TRANSFORMATION = "DES/CBC/PKCS5Padding";
+
+    /**
+     * DES 加密
+     * @param plaintext 明文密码
+     * @return Base64编码的密文（如：7@%N%Y$gyH）
+     */
+    public static String desEncrypt(String plaintext) {
+        try {
+            SecretKeySpec keySpec = new SecretKeySpec(DES_KEY.getBytes(StandardCharsets.UTF_8), DES_ALGORITHM);
+            IvParameterSpec ivSpec = new IvParameterSpec(IV);
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+
+            byte[] encrypted = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
+
+            // 使用 URL Safe Base64（与示例 7@%N%Y$gyH 格式一致）
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(encrypted);
+
+        } catch (Exception e) {
+            throw new RuntimeException("DES加密失败", e);
+        }
+    }
+
+    /**
+     * DES 解密
+     * @param ciphertext Base64编码的密文
+     * @return 明文密码
+     */
+    public static String desDecrypt(String ciphertext) {
+        try {
+            // 处理空格变+号问题
+            ciphertext = ciphertext.replace(' ', '+');
+
+            SecretKeySpec keySpec = new SecretKeySpec(DES_KEY.getBytes(StandardCharsets.UTF_8), DES_ALGORITHM);
+            IvParameterSpec ivSpec = new IvParameterSpec(IV);
+
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+
+            byte[] decoded = Base64.getUrlDecoder().decode(ciphertext);
+            byte[] decrypted = cipher.doFinal(decoded);
+
+            return new String(decrypted, StandardCharsets.UTF_8);
+
+        } catch (Exception e) {
+            throw new RuntimeException("DES解密失败", e);
+        }
     }
 
     // ==================== 测试方法 ====================
