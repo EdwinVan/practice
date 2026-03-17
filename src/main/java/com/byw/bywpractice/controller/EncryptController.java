@@ -5,6 +5,7 @@ import com.byw.bywpractice.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,22 +23,22 @@ public class EncryptController {
     private EncryptService encryptService;
 
     @PostMapping("/aesEncrypt")
-    public String aesEncrypt(String plaintext) {
-        return SecurityUtil.aesEncrypt(plaintext, SecurityUtil.generateAesKey());
+    public String aesEncrypt(@RequestParam String plaintext) {
+        return SecurityUtil.aesEncrypt(plaintext, SecurityUtil.AES_KEY);
     }
 
     @PostMapping("/aesDecrypt")
-    public String aesDecrypt(String ciphertext) {
+    public String aesDecrypt(@RequestParam String ciphertext) {
         return SecurityUtil.aesDecrypt(ciphertext, SecurityUtil.AES_KEY);
     }
 
     @PostMapping("/rsaEncrypt")
-    public String rsaEncrypt(String plaintext) {
+    public String rsaEncrypt(@RequestParam String plaintext) {
         return SecurityUtil.rsaEncrypt(plaintext, SecurityUtil.RSA_PUBLIC_KEY);
     }
 
     @PostMapping("/rsaDecrypt")
-    public String rsaDecrypt(String ciphertext) {
+    public String rsaDecrypt(@RequestParam String ciphertext) {
         return SecurityUtil.rsaDecrypt(ciphertext, SecurityUtil.RSA_PRIVATE_KEY);
     }
 }
