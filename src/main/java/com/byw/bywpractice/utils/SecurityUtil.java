@@ -1,5 +1,10 @@
 package com.byw.bywpractice.utils;
 
+import com.byw.bywpractice.model.req.GetTokenReq;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
@@ -402,12 +407,16 @@ public class SecurityUtil {
 
     // ==================== 测试方法 ====================
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         // hash256加密
         String pid = "1003611070107007052";
         String secret = "e4f9828e7af8e44f3af3de93fff901b6";
         String timestamp = String.valueOf(Instant.now().getEpochSecond());
-        String data = "{\"grant_type\":\"client_credentials\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.INDENT_OUTPUT);
+        GetTokenReq req = new GetTokenReq();
+        req.setGrant_type("client_credentials");
+        String data = mapper.writeValueAsString(req);
         String text = pid + secret + timestamp + data;
         String textHash = sha256(text);
         System.out.println("hash256加密后: " + textHash);
