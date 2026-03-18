@@ -3,6 +3,7 @@ package com.byw.bywpractice.controller;
 import com.byw.bywpractice.model.req.PlaintextReq;
 import com.byw.bywpractice.utils.SMUtil;
 import com.byw.bywpractice.utils.SecurityUtil;
+import com.byw.bywpractice.utils.ZUCUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +85,17 @@ public class EncryptController {
     @PostMapping("/desDecrypt")
     public String desDecrypt(@RequestBody PlaintextReq plaintextReq) {
         return SecurityUtil.desDecrypt(plaintextReq.getCiphertext());
+    }
+
+    @Operation(summary = "ZUC加密")
+    @PostMapping("/zucEncrypt")
+    public String zucEncrypt(@RequestBody PlaintextReq plaintextReq) {
+        return ZUCUtil.zucEncrypt(plaintextReq.getCiphertext());
+    }
+
+    @Operation(summary = "ZUC解密")
+    @PostMapping("/zucDecrypt")
+    public String zucDecrypt(@RequestBody PlaintextReq plaintextReq) {
+        return ZUCUtil.zucDecrypt(plaintextReq.getCiphertext());
     }
 }
